@@ -1,5 +1,8 @@
 import { model, Schema } from "mongoose";
 import { hashPassword } from "../../utils/hashing.js";
+import path from "path";
+export const defaultImage = path.join("uploads", "defaultImage.png");
+
 const userSchema = new Schema(
   {
     username: {
@@ -23,6 +26,14 @@ const userSchema = new Schema(
     pendingEmail: { type: String },
     emailToken: { type: String },
     pendingEmailExpires: { type: Date },
+    profilePicture: {
+      secure_url: {
+        type: String,
+        default:
+          "https://res.cloudinary.com/dntkad2wi/image/upload/v1764542685/NotebookLM_Mind_Map_ndagcz.png",
+      },
+      public_id: { type: String, default: "NotebookLM_Mind_Map_ndagcz.png" },
+    },
   },
   { timestamps: true }
 );

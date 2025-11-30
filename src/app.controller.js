@@ -8,6 +8,7 @@ const bootstrap = async (app, express) => {
   app.use(express.json());
   app.use(cookieParser());
   await connectDB();
+  app.use("/api/v1/uploads", express.static("uploads"));
   app.use("/api/v1/auth", authRouter);
   app.use("/api/v1/user", userRouter);
 

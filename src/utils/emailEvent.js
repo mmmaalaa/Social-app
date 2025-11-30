@@ -1,5 +1,4 @@
 import { EventEmitter } from "events";
-import { generateToken } from "./tokens.js";
 import sendEmail, { subject } from "./sendEmail.js";
 import sendEmailTemplate from "./sendEmailTemplate.js";
 

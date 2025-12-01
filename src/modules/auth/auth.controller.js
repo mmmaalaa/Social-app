@@ -17,7 +17,7 @@ import {
   loginSchema,
 } from "./auth.validation.js";
 import { verifyOTP } from "../../middleware/verifyOTP.js";
-import axios from "axios";
+
 
 const router = Router();
 router.post("/requestOtp", authLimiter, requestOtp);

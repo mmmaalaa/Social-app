@@ -4,7 +4,7 @@ import appError from "../../utils/appError.js";
 import { comparePassword, hashPassword } from "../../utils/hashing.js";
 import sendEmail from "../../utils/sendEmail.js";
 import crypto from "node:crypto";
-import cloudinary from "../../utils/cloudinary.js";
+import cloudinary, { uploadSingle } from "../../utils/cloudinary.js";
 import sharp from "sharp";
 
 export const getUserProfile = asyncHandler(async (req, res) => {
@@ -126,27 +126,12 @@ export const uploadProfilePic = asyncHandler(async (req, res, next) => {
   if (!req.file) return next(new appError().create("No file", 400));
 
   // compress
-  const compressed = await sharp(req.file.buffer)
-    .resize(600)
-    .jpeg({ quality: 70 })
-    .toBuffer();
 
-  // Upload Stream
-  const streamUpload = () =>
-    new Promise((resolve, reject) => {
-      cloudinary.uploader
-        .upload_stream(
-          {
-            folder: "profile-pictures",
-            public_id: `user_${req.user._id}`,
-            overwrite: true,
-          },
-          (error, result) => (error ? reject(error) : resolve(result))
-        )
-        .end(compressed);
-    });
-
-  const result = await streamUpload();
+  const result = await uploadSingle(
+    req.file,
+    req.user._id,
+    `Socail/${req.user._id}/profile_pictures`
+  );
 
   // Update DB
   user.profilePicture = {

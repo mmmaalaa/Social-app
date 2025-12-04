@@ -262,6 +262,26 @@ Uploaded files are accessible via:
 http://localhost:5000/api/v1/uploads/<filename>
 ```
 
+## 🔮 Future Features
+
+This project is actively being developed. The following features are planned for future updates:
+
+- **Real-time Messaging**: Direct messaging between users
+- **Stories**: Temporary stories feature similar to Instagram/Facebook
+- **Notifications**: Real-time push notifications for likes, comments, and follows
+- **User Following System**: Follow/unfollow users and personalized feed
+- **Search Functionality**: Search for users, posts, and hashtags
+- **Video Uploads**: Support for video content in posts
+- **Share Feature**: Share posts with other users
+- **Saved Posts**: Bookmark/save posts for later viewing
+- **User Mentions**: Tag users in posts and comments (@username)
+- **Hashtags**: Hashtag support for better content discovery
+- **Privacy Settings**: Advanced privacy controls for posts and profiles
+- **Two-Factor Authentication**: Enhanced security with 2FA
+
+> [!NOTE]
+> This is a living list and will be updated as development progresses. Feel free to suggest new features via issues!
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please follow these steps:

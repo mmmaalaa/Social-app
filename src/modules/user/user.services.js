@@ -125,11 +125,9 @@ export const uploadProfilePic = asyncHandler(async (req, res, next) => {
 
   if (!req.file) return next(new appError().create("No file", 400));
 
-  // compress
 
   const result = await uploadSingle(
     req.file,
-    req.user._id,
     `Socail/${req.user._id}/profile_pictures`
   );
 

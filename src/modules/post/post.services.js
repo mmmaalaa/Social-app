@@ -3,6 +3,7 @@ import cloudinary, { uploadSingle } from "../../utils/cloudinary.js";
 import Post from "../../DB/models/post.model.js";
 import { nanoid } from "nanoid";
 import { createError } from "../../utils/appError.js";
+import Likes from "../../DB/models/likes.model.js";
 
 export const creatPost = asyncHandler(async (req, res, next) => {
   const { text } = req.body;
@@ -99,7 +100,39 @@ export const getPost = asyncHandler(async (req, res, next) => {
   const post = await Post.findOne({
     _id: req.params.id,
     isDeleted: false,
-  }).populate({ path: "user", select: "username profilePicture.secure_url" });
+  }).populate([
+    { path: "user", select: "username profilePicture.secure_url" },
+    { path: "comments" },
+  ]);
   if (!post) return next(createError("post not found", 404));
-  return res.status(200).json({ status: "sucess", post });
+  return res.status(200).json({
+    status: "sucess",
+    data: {
+      post,
+      likes: await Likes.countDocuments({ post: post._id }),
+    },
+  });
+});
+
+export const likesUnlikePost = asyncHandler(async (req, res, next) => {
+  const post = await Post.findById(req.params.id);
+  if (!post) return next(createError("post not found", 404));
+  const existing = await Likes.findOne({
+    post: req.params.id,
+    user: req.user._id,
+  });
+  if (existing) {
+    await Likes.findByIdAndDelete(existing._id);
+    return res.status(200).json({ status: "sucess", message: "unliked" });
+  }
+  await Likes.create({
+    post: req.params.id,
+    user: req.user._id,
+  });
+  return res.status(200).json({ status: "sucess", message: "liked" });
+});
+
+export const getPostLikes = asyncHandler(async (req, res, next) => {
+  const count = await Likes.countDocuments({ post: req.params.id });
+  res.status(200).json({ likes: count });
 });

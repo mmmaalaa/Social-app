@@ -13,10 +13,14 @@ import {
   getPost,
   restorePost,
   updatePost,
+  likesUnlikePost,
+  getPostLikes,
 } from "./post.services.js";
+import commentRouter from "../comments/comments.controller.js";
 
 const router = Router();
 
+router.use("/:postId/comment", commentRouter);
 router.post(
   "/",
   authentication,
@@ -43,11 +47,8 @@ router.patch(
   validation(deletePostValidtaion),
   restorePost
 );
-router.get(
-  "/:id",
-  authentication,
-  validation(deletePostValidtaion),
-  getPost
-);
+router.get("/:id", authentication, validation(deletePostValidtaion), getPost);
 
+router.post("/:id/likes", authentication, likesUnlikePost);
+router.get("/:id/likes", authentication, getPostLikes);
 export default router;

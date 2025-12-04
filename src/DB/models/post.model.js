@@ -17,14 +17,18 @@ const postSchema = new Schema(
       },
     ],
     user: { type: Types.ObjectId, ref: "User", required: true },
-    likes: { type: Types.ObjectId, ref: "User" },
     isDeleted: { type: Boolean, default: false },
-    deletedAt: { type: Date},
+    deletedAt: { type: Date },
     folder: { type: String },
   },
-  { timestamps: true }
+  { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
+postSchema.virtual("comments", {
+  ref: "Comment",
+  foreignField: "post",
+  localField: "_id",
+});
 const Post = model("Post", postSchema);
 
 export default Post;

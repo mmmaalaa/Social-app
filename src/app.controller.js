@@ -2,6 +2,7 @@ import connectDB from "./DB/connection.js";
 import authRouter from "./modules/auth/auth.controller.js";
 import userRouter from "./modules/user/user.controller.js";
 import postRouter from "./modules/post/post.controller.js";
+import commentRouter from "./modules/comments/comments.controller.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 const bootstrap = async (app, express) => {
@@ -13,6 +14,7 @@ const bootstrap = async (app, express) => {
   app.use("/api/v1/auth", authRouter);
   app.use("/api/v1/user", userRouter);
   app.use("/api/v1/post", postRouter);
+  app.use("/api/v1/comment", commentRouter);
 
   app.use((req, res, next) => {
     res.status(404).json({ message: "Route not found" });
